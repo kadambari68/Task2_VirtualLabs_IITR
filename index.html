@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connect The Dots</title>
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 500px;
+      }
+      h1 {
+        color: #FF5722;
+        text-align: center;
+    }
+      .main {
+        padding: 15px;
+      }
+      .container {
+        display: grid;
+        grid-template-columns: 35% 30% 35%;
+        grid-template-rows: 100%;
+        width: 450px;
+        height: 100px;
+      }
+      .element {
+        display: flex;
+        height: 100px;
+        width: 100px;
+      }
+      .point {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        
+      }
+      .name {
+        padding: 20px;
+        margin: 0px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .control {
+        display: flex;
+        width: 370px;
+        justify-content: space-around;
+        padding: 15px;
+      }
+      .chck, .rest{
+        margin-top: 50px;
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        box-shadow: 0 0 5px #4CAF50;
+        cursor: pointer;
+      }
+      .rest{
+        background-color: #f44336;
+        box-shadow: 0 0 5px #f44336;
+      }
+      .chck:hover, .rest:hover{
+        background-color: black;
+        box-shadow: 0 0 5px black;
+      }
+      .chck:active, .rest:active{
+        box-shadow: none;
+      }
+      
+    </style>
+  </head>
+  <body>
+    
+    
+    <div class="main" id="container">
+      
+      <h1>Connect The Dots</h1>
+      <div class="container">
+        <div class="col1">
+          <div class="element">
+            <div class="name"><b>A</b></div>
+            <div class="point" id="A"></div>
+          </div>
+          <div class="element">
+            <div class="name"><b>B</b></div>
+            <div class="point" id="B"></div>
+          </div>
+          <div class="element">
+            <div class="name"><b>C</b></div>
+            <div class="point" id="C"></div>
+          </div>
+        </div>
+        <div class="clo3">
+          <div class="blank"></div>
+        </div>
+        <div class="col2">
+          <div class="element">
+            <div class="point" id="D"></div>
+            <div class="name"><b>D</b></div>
+          </div>
+          <div class="element">
+            <div class="point" id="E"></div>
+            <div class="name"><b>E</b></div>
+          </div>
+          <div class="element">
+            <div class="point" id="F"></div>
+            <div class="name"><b>F</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="control">
+        <div class="con">
+          <br><br><br><br><br><br><br><br><br><br><br>
+          <button class = "chck" id="check">Check</button>
+        </div>
+        <div class="con">
+          <br><br><br><br><br><br><br><br><br><br><br>
+          <button class = "rest" id="reset">Reset</button>
+        </div>
+      </div>
+      <div class="message"></div>
+    </div>
+
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+
+    <script type="text/javascript" src="script_plum.js"></script>
+
+    <script type="text/javascript">
+      var choice = [];
+      var answers = [];
+      let A = document.getElementById("A");
+      let B = document.getElementById("B");
+      let C = document.getElementById("C");
+      let D = document.getElementById("D");
+      let E = document.getElementById("E");
+      let F = document.getElementById("F");
+
+      var sourceEndpointoptions = {
+          anchor: "Center",
+          isSource: true,
+          
+      };
+      var targetEndpointoptions = {
+          anchor: "Center",
+          isTarget: true,
+          
+      };
+      jsPlumb.ready(function () {
+        var a = jsPlumb.addEndpoint("A", sourceEndpointoptions);
+        var b = jsPlumb.addEndpoint("B", sourceEndpointoptions);
+        var c = jsPlumb.addEndpoint("C", sourceEndpointoptions);
+        var d = jsPlumb.addEndpoint("D", targetEndpointoptions);
+        var e = jsPlumb.addEndpoint("E", targetEndpointoptions);
+        var f = jsPlumb.addEndpoint("F", targetEndpointoptions);
+        a.bind("mousedown", () => {
+          for (var ele of answers) {
+            if (ele[0] == "A") {
+              return;
+            }
+          }
+          choice.push("A");
+        });
+        b.bind("mousedown", () => {
+          for (var ele of answers) {
+            if (ele[0] == "B") {
+              return;
+            }
+          }
+          choice.push("B");
+        });
+        c.bind("mousedown", () => {
+          for (var ele of answers) {
+            if (ele[0] == "C") {
+              return;
+            }
+          }
+          choice.push("C");
+        });
+        d.bind("mouseup", () => {
+          if (choice.length == 1) {
+            choice.push("D");
+            answers.push(choice);
+            choice = [];
+          }
+        });
+        e.bind("mouseup", () => {
+          if (choice.length == 1) {
+            choice.push("E");
+            answers.push(choice);
+            choice = [];
+          }
+        });
+        f.bind("mouseup", () => {
+          if (choice.length == 1) {
+            choice.push("F");
+            answers.push(choice);
+            choice = [];
+          }
+        });
+      });
+      var cont = document.getElementById("container");
+      cont.addEventListener("mouseup", () => {
+        choice = [];
+      });
+      var check = document.getElementById("check");
+      check.addEventListener("mousedown", () => {
+
+        var no=["",""];
+        var correct = [
+          ["A", "D"],
+          ["B", "E"],
+          ["C", "F"],
+        ];
+        var incorrect = [
+          ["A","E"],
+          ["A","F"],
+          ["B","D"],
+          ["B","F"],
+          ["C","D"],
+          ["C","E"],
+        ];
+
+        const isCorrect = correct.every((correctItem) =>
+          answers.some(
+            (answerItem) => answerItem.toString() === correctItem.toString()
+          )
+        );
+        const isIncorrect = correct.every((correctItem) =>
+          answers.some(
+            (answerItem) => answerItem.toString() !== correctItem.toString()
+          )
+        );
+
+
+        if (isCorrect) {
+          //console.log(correct);
+          alert("The connections are right!");
+        } 
+        
+        else if(isIncorrect){
+          alert(" The connections are wrong");
+        }
+
+        else{
+          alert(" No connections made");
+          
+        }
+      });
+
+      var reset = document.getElementById("reset");
+      reset.addEventListener("mousedown", () => {
+        jsPlumb.detachEveryConnection();
+        answers = [];
+        choice = [];
+      });
+    </script>
+  </body>
+</html>
